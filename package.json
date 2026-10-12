@@ -1,0 +1,37 @@
+{
+  "name": "dsh-fast-mode",
+  "version": "0.1.0",
+  "description": "DSH 对话输入框的 GPT Fast 开关，按会话请求 Priority 服务层级。",
+  "type": "module",
+  "license": "MIT",
+  "main": "./lib/index.js",
+  "exports": {
+    ".": "./lib/index.js",
+    "./client": "./lib/client.js"
+  },
+  "files": ["lib", "cordis.patch.yml", "README.md", "LICENSE"],
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "test": "node --test --test-isolation=none test/*.test.mjs",
+    "test:sdk": "node test-sdk/sdk-integration.test.mjs",
+    "test:host": "node scripts/build.mjs && node test-sdk/host-integration.test.mjs",
+    "prepack": "npm run build && npm test"
+  },
+  "dsh": {
+    "engines": {"dsh": "0.2.0-rc.2"},
+    "bundle": {"patch": "./cordis.patch.yml"},
+    "client": {
+      "inject": ["@deepseek-ai/dsh-client-ui-renderer", "@deepseek-ai/dsh-client-connection"],
+      "platform": "web"
+    }
+  },
+  "peerDependencies": {
+    "@deepseek-ai/dsh": "0.2.0-rc.2",
+    "@deepseek-ai/dsh-llm-pi-ai": "0.2.0-rc.2"
+  },
+  "peerDependenciesMeta": {
+    "@deepseek-ai/dsh": {"optional": true},
+    "@deepseek-ai/dsh-llm-pi-ai": {"optional": true}
+  },
+  "engines": {"node": ">=22"}
+}
